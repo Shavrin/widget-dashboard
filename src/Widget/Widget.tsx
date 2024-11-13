@@ -1,4 +1,4 @@
-import { memo, useRef } from "react";
+import { memo } from "react";
 
 export type WidgetProps = {
   title: string;
@@ -6,17 +6,12 @@ export type WidgetProps = {
 };
 
 const Widget = memo(({ title, script }: WidgetProps) => {
-  const iframeRef = useRef(null);
-
-  const srcDoc = `
-   <html>
-      <head>title: ${title}</head>
-      <body>
-        <script>${script}</script>
-      </body>
-   </html>`;
-
-  return <iframe ref={iframeRef} srcDoc={srcDoc}></iframe>;
+  return (
+    <div>
+      {title}
+      <iframe srcDoc={script} />
+    </div>
+  );
 });
 
 export { Widget };
