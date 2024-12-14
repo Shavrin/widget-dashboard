@@ -1,10 +1,8 @@
-import styles from "./Dashboard.module.css";
 import { Button } from "../Button";
 import { useRef, useState } from "react";
 import { WidgetModal } from "../WidgetModal/WidgetModal.tsx";
 import { Widget, WidgetProps } from "../Widget/Widget.tsx";
 import { DialogHandle } from "../Modal/Modal.tsx";
-// import { DndContext, useDroppable } from "@dnd-kit/core";
 
 export function Dashboard() {
   const modalRef = useRef<DialogHandle>(null);
@@ -12,6 +10,7 @@ export function Dashboard() {
     {
       title: "counter",
       script:
+        "<html><body><div id='root'></div><script>" +
         'const el = document.getElementById("root");\n' +
         "let i = 0;\n" +
         "\n" +
@@ -20,7 +19,8 @@ export function Dashboard() {
         "    setTimeout(counter, 1000);\n" +
         "}\n" +
         "\n" +
-        "counter();",
+        "counter();" +
+        "</script></body></html>",
     },
     {
       title: "pokemon",
@@ -28,32 +28,20 @@ export function Dashboard() {
         "window.fetch('https://pokeapi.co/api/v2/pokemon/ditto').then(response => response.json()).then((data) => document.getElementById(\"root\").textContent = JSON.stringify(data))\n",
     },
   ]);
-  // const [position, setPosition] = useState({ x: 0, y: 0 });
-  // const handleDragEnd = (event) => {
-  //   const { delta } = event;
-  //   setPosition((prevPosition) => ({
-  //     x: prevPosition.x + delta.x,
-  //     y: prevPosition.y + delta.y,
-  //   }));
-  // };
+
   function addWidget(widget: WidgetProps) {
     setWidgets((widgets) => [...widgets, widget]);
   }
 
   return (
-    // <DndContext onDragEnd={handleDragEnd}>
-    <div className={styles.dashboard}>
-      <Button onClick={() => modalRef.current?.open()}>Add Widget</Button>
-      <Button>Settings</Button>
+    <div className="h-full bg-cyan-950">
+      <div className="fixed bottom-0 left-0 bg-white">
+        <Button onClick={() => modalRef.current?.open()}>Add Widget</Button>
+        <Button>Settings</Button>
+      </div>
       {widgets.map(({ title, script }) => (
-        <Widget
-          key={title}
-          title={title}
-          script={script}
-          // position={position}
-        />
+        <Widget key={title} title={title} script={script} />
       ))}
-
       <WidgetModal
         ref={modalRef}
         onAdd={(widget) => {
@@ -62,6 +50,5 @@ export function Dashboard() {
         }}
       />
     </div>
-    // </DndContext>
   );
 }

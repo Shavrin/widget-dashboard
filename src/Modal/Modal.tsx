@@ -1,4 +1,3 @@
-import styles from "./Modal.module.css";
 import { ReactNode, forwardRef, useImperativeHandle, useRef } from "react";
 
 type ModalProps = {
@@ -22,7 +21,7 @@ const Modal = forwardRef<DialogHandle, ModalProps>(({ children }, ref) => {
   );
 
   return (
-    <dialog ref={modalRef} className={styles.modal}>
+    <dialog ref={modalRef} className="backdrop-blur">
       {children}
     </dialog>
   );

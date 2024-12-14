@@ -10,18 +10,18 @@ import "prismjs/themes/prism.css";
 type WidgetModalProps = {
   onAdd: (props: WidgetProps) => void;
 };
-
+const defaultScript = `
+<html>
+<body>
+<div id="root"></div>
+<script></script>
+</body>
+</html>
+`;
 const WidgetModal = forwardRef<DialogHandle, WidgetModalProps>(
   ({ onAdd }, ref) => {
     const [title, setTitle] = useState("Title");
-    const [script, setScript] = useState(
-      "  <html>\n" +
-        "      <body>\n" +
-        '        <div id="root"/>\n' +
-        "        <script></script>\n" +
-        "      </body>\n" +
-        "   </html>`",
-    );
+    const [script, setScript] = useState(defaultScript);
 
     return (
       <Modal ref={ref}>

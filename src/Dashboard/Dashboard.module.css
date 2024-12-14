@@ -1,8 +1,0 @@
-.dashboard {
-  height: 100%;
-  background: darkslategrey;
-  border: 1px solid red;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
-}
