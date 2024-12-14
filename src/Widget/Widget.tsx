@@ -7,9 +7,12 @@ export type WidgetProps = {
 
 const Widget = memo(({ title, script }: WidgetProps) => {
   return (
-    <div className="p-3 hover:bg-green-400 border-2 hover:cursor-grabbing rounded-3xl">
+    <div className="hover:bg-cyan-700 border-2 hover:cursor-grabbing rounded-2xl bg-cyan-800 p-2 w-fit">
       {title}
-      <iframe srcDoc={script} className="pointer-events-none select-none" />
+      <iframe
+        srcDoc={script}
+        className="pointer-events-none select-none h-full w-full"
+      />
     </div>
   );
 });

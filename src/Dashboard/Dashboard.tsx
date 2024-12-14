@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { WidgetModal } from "../WidgetModal/WidgetModal.tsx";
 import { Widget, WidgetProps } from "../Widget/Widget.tsx";
 import { DialogHandle } from "../Modal/Modal.tsx";
+import { Cog, Plus } from "../Icons.tsx";
 
 export function Dashboard() {
   const modalRef = useRef<DialogHandle>(null);
@@ -34,10 +35,14 @@ export function Dashboard() {
   }
 
   return (
-    <div className="h-full bg-cyan-950">
-      <div className="fixed bottom-0 left-0 bg-white">
-        <Button onClick={() => modalRef.current?.open()}>Add Widget</Button>
-        <Button>Settings</Button>
+    <div className="h-full bg-gradient-to-t from-cyan-950 to-cyan-800">
+      <div className="fixed bottom-0 left-0 ml-3.5 mb-3.5">
+        <Button onClick={() => modalRef.current?.open()}>
+          <Plus />
+        </Button>
+        <Button>
+          <Cog />
+        </Button>
       </div>
       {widgets.map(({ title, script }) => (
         <Widget key={title} title={title} script={script} />
