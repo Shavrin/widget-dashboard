@@ -13,12 +13,11 @@ const defaultWidgets = [
     script: `
     <html style="height: 100%">
         <body style="height: 100%;margin: 0;">
-            <div id='root'></div>
+            <div id='root' style="font-size: 3rem; font-family: sans-serif; font-weight: bold; color: white; height: 100%; display: flex; justify-content: center; align-items: center;"></div>
         </body>
         <script>
             const el = document.getElementById("root");
 
-            el.style = "font-size: 3rem; font-family: sans-serif; font-weight: bold; color: white; height: 100%; display: flex; justify-content: center; align-items: center;";
             (function counter() {
                 el.innerHTML = new Date().toLocaleTimeString();
                 setTimeout(counter, 1000);
@@ -37,15 +36,15 @@ const defaultWidgets = [
                 window.fetch("https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0")
                 .then(response => response.json())
                 .then((data) =>{
-                   
                     const randomPokemon =data.results[Math.floor(Math.random()*data.results.length)];
                     
-                    
-                    window.fetch(randomPokemon.url).then(response => response.json()).then(data => {
-                    console.log(data);
-                        
-                        document.getElementById("root").textContent = data.name + " " + data.id; })
+                    window.fetch(randomPokemon.url)
+                        .then(response => response.json())
+                        .then(data => {
+                            const sprite = data.sprites.front_default;
+                            document.getElementById("root").innerHTML = "<img src='"  + sprite + "'/>" 
                     })
+                })
                     
             </script>
         </body>`,
