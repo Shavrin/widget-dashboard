@@ -1,13 +1,14 @@
 import { Button } from "../Button";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { WidgetModal } from "../WidgetModal/WidgetModal.tsx";
 import { TWidget, Widget } from "../Widget/Widget.tsx";
 import { DialogHandle } from "../Modal/Modal.tsx";
 import { Cog, Plus } from "../Icons.tsx";
+import { useLocalStorage } from "usehooks-ts";
 
 export function Dashboard() {
   const modalRef = useRef<DialogHandle>(null);
-  const [widgets, setWidgets] = useState<TWidget[]>([
+  const [widgets, setWidgets] = useLocalStorage("widgets", [
     {
       id: "1",
       title: "Counter",
@@ -16,12 +17,12 @@ export function Dashboard() {
         <script>
             const el = document.getElementById("root");
             let i = 0;
-            
+
             function counter() {
                 el.innerHTML = i++;
                 setTimeout(counter, 1000);
             }
-            
+
             counter();
         </script>`,
     },
@@ -68,6 +69,7 @@ export function Dashboard() {
           <Cog />
         </Button>
       </div>
+
       {widgets.map(({ id, title, script }) => (
         <Widget
           key={id}
@@ -78,6 +80,7 @@ export function Dashboard() {
           edit={editWidget}
         />
       ))}
+
       <WidgetModal
         ref={modalRef}
         onConfirm={(widget) => {
