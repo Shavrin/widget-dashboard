@@ -6,7 +6,7 @@ import { WidgetModal } from "../WidgetModal/WidgetModal.tsx";
 
 export type TWidget = {
   id: string;
-  title: string;
+  title?: string;
   script: string;
 };
 
@@ -20,7 +20,7 @@ const Widget = memo(({ title, script, id, edit, remove }: WidgetProps) => {
 
   return (
     <>
-      <div className="group relative w-fit rounded-2xl border-2 bg-cyan-800 p-2 hover:cursor-grabbing hover:bg-cyan-700">
+      <div className="group relative w-fit rounded-2xl border-2 bg-cyan-800 p-2 hover:cursor-grabbing hover:bg-cyan-700 resize">
         {title}
         <iframe
           srcDoc={script}

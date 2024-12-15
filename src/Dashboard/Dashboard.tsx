@@ -5,41 +5,56 @@ import { Cog, Plus } from "../Icons.tsx";
 import { DialogHandle } from "../Modal/Modal.tsx";
 import { TWidget, Widget } from "../Widget/Widget.tsx";
 import { WidgetModal } from "../WidgetModal/WidgetModal.tsx";
+import { v4 as uuid } from "uuid";
 
-export function Dashboard() {
-  const modalRef = useRef<DialogHandle>(null);
-  const [widgets, setWidgets] = useLocalStorage("widgets", [
-    {
-      id: "1",
-      title: "Counter",
-      script: `
-        <div id='root'></div>
+const defaultWidgets = [
+  {
+    id: uuid(),
+    script: `
+    <html style="height: 100%">
+        <body style="height: 100%;margin: 0;">
+            <div id='root'></div>
+        </body>
         <script>
             const el = document.getElementById("root");
-            let i = 0;
 
-            function counter() {
-                el.innerHTML = i++;
+            el.style = "font-size: 3rem; font-family: sans-serif; font-weight: bold; color: white; height: 100%; display: flex; justify-content: center; align-items: center;";
+            (function counter() {
+                el.innerHTML = new Date().toLocaleTimeString();
                 setTimeout(counter, 1000);
-            }
-
-            counter();
-        </script>`,
-    },
-    {
-      id: "2",
-      title: "Pokemon",
-      script: `
+            })()
+            
+        </script>
+    </html>`,
+  },
+  {
+    id: uuid(),
+    title: "Pokemon",
+    script: `
         <body style="overflow: hidden">
             <div id='root'></div>
             <script>
-                window.fetch('https://pokeapi.co/api/v2/pokemon/ditto')
+                window.fetch("https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0")
                 .then(response => response.json())
-                .then((data) => document.getElementById("root").textContent = JSON.stringify(data))
+                .then((data) =>{
+                   
+                    const randomPokemon =data.results[Math.floor(Math.random()*data.results.length)];
+                    
+                    
+                    window.fetch(randomPokemon.url).then(response => response.json()).then(data => {
+                    console.log(data);
+                        
+                        document.getElementById("root").textContent = data.name + " " + data.id; })
+                    })
+                    
             </script>
         </body>`,
-    },
-  ]);
+  },
+];
+
+export function Dashboard() {
+  const modalRef = useRef<DialogHandle>(null);
+  const [widgets, setWidgets] = useLocalStorage("widgets", defaultWidgets);
 
   function addWidget(widget: TWidget) {
     setWidgets((widgets) => [...widgets, widget]);
@@ -60,7 +75,7 @@ export function Dashboard() {
   }
 
   return (
-    <div className="h-full bg-gradient-to-t from-cyan-950 to-cyan-900">
+    <div className="h-full  flex justify-center items-center gap-5  flex-wrap bg-gradient-to-t from-cyan-950 to-cyan-900">
       <div className="fixed bottom-0 left-0 mb-3.5 ml-3.5 flex gap-2">
         <Button onClick={() => modalRef.current?.open()}>
           <Plus />
