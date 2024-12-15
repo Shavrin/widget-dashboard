@@ -21,7 +21,10 @@ const Modal = forwardRef<DialogHandle, ModalProps>(({ children }, ref) => {
   );
 
   return (
-    <dialog ref={modalRef} className="backdrop-blur">
+    <dialog
+      ref={modalRef}
+      className="backdrop:backdrop-blur-sm m-auto p-4 rounded-2xl border-2 border-cyan-200 bg-sky-600 min-w-96"
+    >
       {children}
     </dialog>
   );
@@ -32,7 +35,9 @@ type TitleProps = {
 };
 
 function ModalTitle({ children }: TitleProps) {
-  return children;
+  return (
+    <h3 className="text-3xl border-b-2 border-red-950 mb-6">{children}</h3>
+  );
 }
 
 type BodyProps = {
@@ -40,7 +45,7 @@ type BodyProps = {
 };
 
 function ModalBody({ children }: BodyProps) {
-  return children;
+  return <div className="mb-1.5 mt-1.5">{children}</div>;
 }
 
 type FooterProps = {
@@ -48,7 +53,7 @@ type FooterProps = {
 };
 
 function ModalFooter({ children }: FooterProps) {
-  return children;
+  return <div className="mb-1.5 mt-1.5">{children}</div>;
 }
 
 const ModalNamespace = Object.assign(Modal, {
