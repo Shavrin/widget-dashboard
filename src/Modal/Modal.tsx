@@ -23,7 +23,7 @@ const Modal = forwardRef<DialogHandle, ModalProps>(({ children }, ref) => {
   return (
     <dialog
       ref={modalRef}
-      className="backdrop:backdrop-blur-sm m-auto p-4 rounded-2xl border-2 border-cyan-200 bg-sky-600 min-w-96"
+      className="m-auto min-w-96 rounded-2xl border-2 border-cyan-200 bg-sky-600 p-4 backdrop:backdrop-blur-sm"
     >
       {children}
     </dialog>
@@ -36,7 +36,7 @@ type TitleProps = {
 
 function ModalTitle({ children }: TitleProps) {
   return (
-    <h3 className="text-3xl border-b-2 border-red-950 mb-6">{children}</h3>
+    <h3 className="mb-6 border-b-2 border-red-950 text-3xl">{children}</h3>
   );
 }
 

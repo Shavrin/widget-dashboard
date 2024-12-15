@@ -9,7 +9,7 @@ export function Button({ children, onClick }: Button) {
   return (
     <button
       onClick={onClick}
-      className="inline-flex items-center justify-center w-10 h-10 text-pink-100 transition-colors duration-150 bg-pink-700 rounded-3xl focus:shadow-outline hover:bg-pink-800"
+      className="focus:shadow-outline inline-flex h-10 w-10 items-center justify-center rounded-3xl bg-pink-700 text-pink-100 transition-colors duration-150 hover:bg-pink-800"
     >
       {children}
     </button>

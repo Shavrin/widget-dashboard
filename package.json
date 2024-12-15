@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
-    "prettier": "prettier . --write",
+    "prettier": "prettier . --write --config ./.prettierc.json",
     "typecheck": "tsc --project ./tsconfig.app.json",
     "typewatch": "npm run typecheck -- --watch"
   },
@@ -36,6 +36,8 @@
     "globals": "^15.11.0",
     "postcss": "^8.4.49",
     "prettier": "^3.3.3",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "prettier-plugin-tailwindcss": "^0.6.9",
     "stylelint": "^16.10.0",
     "stylelint-config-standard-scss": "^13.1.0",
     "tailwindcss": "^3.4.16",

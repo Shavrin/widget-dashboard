@@ -20,14 +20,14 @@ const Widget = memo(({ title, script, id, edit, remove }: WidgetProps) => {
 
   return (
     <>
-      <div className="hover:bg-cyan-700 border-2 hover:cursor-grabbing rounded-2xl bg-cyan-800 p-2 w-fit group relative">
+      <div className="group relative w-fit rounded-2xl border-2 bg-cyan-800 p-2 hover:cursor-grabbing hover:bg-cyan-700">
         {title}
         <iframe
           srcDoc={script}
-          className="pointer-events-none select-none h-full w-full overflow-hidden"
+          className="pointer-events-none h-full w-full select-none overflow-hidden"
         />
 
-        <div className="invisible group-hover:visible absolute top-0 left-0">
+        <div className="invisible absolute left-0 top-0 group-hover:visible">
           <Button
             onClick={() => {
               modalRef.current?.open();
@@ -37,7 +37,7 @@ const Widget = memo(({ title, script, id, edit, remove }: WidgetProps) => {
           </Button>
         </div>
 
-        <div className="invisible group-hover:visible absolute top-0 right-0">
+        <div className="invisible absolute right-0 top-0 group-hover:visible">
           <Button onClick={() => remove(id)}>
             <Trash />
           </Button>

@@ -1,12 +1,12 @@
-import { DialogHandle, Modal } from "../Modal/Modal.tsx";
-import { forwardRef, SyntheticEvent, useState } from "react";
-import { type TWidget } from "../Widget/Widget.tsx";
-import Editor from "react-simple-code-editor";
 import { highlight, languages } from "prismjs";
 import "prismjs/components/prism-clike";
 import "prismjs/components/prism-javascript";
 import "prismjs/themes/prism.css";
+import { forwardRef, SyntheticEvent, useState } from "react";
+import Editor from "react-simple-code-editor";
 import { v4 as uuid } from "uuid";
+import { DialogHandle, Modal } from "../Modal/Modal.tsx";
+import { type TWidget } from "../Widget/Widget.tsx";
 
 type WidgetModalProps = {
   onConfirm: (props: TWidget) => void;
@@ -50,7 +50,7 @@ const WidgetModal = forwardRef<DialogHandle, WidgetModalProps>(
               highlight={highlighter}
               onValueChange={setScript}
               value={script}
-              className="rounded bg-white resize min-w-96 mt-1.5"
+              className="mt-1.5 min-w-96 resize rounded bg-white"
             />
           </Modal.Body>
           <Modal.Footer>

@@ -1,10 +1,10 @@
-import { Button } from "../Button";
 import { useRef } from "react";
-import { WidgetModal } from "../WidgetModal/WidgetModal.tsx";
-import { TWidget, Widget } from "../Widget/Widget.tsx";
-import { DialogHandle } from "../Modal/Modal.tsx";
-import { Cog, Plus } from "../Icons.tsx";
 import { useLocalStorage } from "usehooks-ts";
+import { Button } from "../Button";
+import { Cog, Plus } from "../Icons.tsx";
+import { DialogHandle } from "../Modal/Modal.tsx";
+import { TWidget, Widget } from "../Widget/Widget.tsx";
+import { WidgetModal } from "../WidgetModal/WidgetModal.tsx";
 
 export function Dashboard() {
   const modalRef = useRef<DialogHandle>(null);
@@ -61,7 +61,7 @@ export function Dashboard() {
 
   return (
     <div className="h-full bg-gradient-to-t from-cyan-950 to-cyan-900">
-      <div className="fixed bottom-0 left-0 ml-3.5 mb-3.5 flex gap-2">
+      <div className="fixed bottom-0 left-0 mb-3.5 ml-3.5 flex gap-2">
         <Button onClick={() => modalRef.current?.open()}>
           <Plus />
         </Button>
