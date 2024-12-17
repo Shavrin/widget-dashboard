@@ -1,12 +1,9 @@
-import { highlight, languages } from "prismjs";
-import "prismjs/components/prism-clike";
-import "prismjs/components/prism-javascript";
-import "prismjs/themes/prism.css";
-import { SyntheticEvent, useState } from "react";
-import Editor from "react-simple-code-editor";
+import { useState } from "react";
 import { v4 as uuid } from "uuid";
 import { Dialog } from "../Dialog/Dialog.tsx";
 import { type WidgetType } from "../Widget/types.ts";
+import { Button } from "../Button";
+import { Editor } from "@monaco-editor/react";
 
 type WidgetModalProps = {
   onConfirm: (props: WidgetType) => void;
@@ -16,11 +13,9 @@ type WidgetModalProps = {
 };
 
 const defaultScript = `<div id="root"></div>
-    <script>
+<script>
     
-    </script>`;
-
-const highlighter = (code: string) => highlight(code, languages.html, "html");
+</script>`;
 
 export const WidgetModal = ({
   onConfirm,
@@ -28,39 +23,46 @@ export const WidgetModal = ({
   open,
   onClose,
 }: WidgetModalProps) => {
-  const [title, setTitle] = useState(widget?.title ?? "Title");
   const [script, setScript] = useState(widget?.script ?? defaultScript);
 
   return (
     <Dialog open={open} onClose={onClose}>
       <form
-        onSubmit={(event: SyntheticEvent) => {
+        className="w-full"
+        onSubmit={(event) => {
           event.preventDefault();
 
           onConfirm({
             id: widget?.id ?? uuid(),
-            title,
             script,
           });
+
+          onClose();
         }}
       >
         <Dialog.Title>Create a widget</Dialog.Title>
-        <Dialog.Body>
-          <input
-            id="title"
-            type="text"
-            value={title}
-            onChange={(event) => setTitle(event.target.value)}
-          />
+        <div className="rounded-lg overflow-hidden resize min-h-80 h-80 min-w-80 w-[1000px]">
           <Editor
-            highlight={highlighter}
-            onValueChange={setScript}
+            height="100%"
+            language="html"
             value={script}
-            className="mt-1.5 min-w-96 resize rounded bg-white"
+            theme="vs-dark"
+            onChange={(value) => setScript(value ?? "")}
+            options={{
+              codeLens: false,
+              padding: { top: 20 },
+              minimap: {
+                enabled: false,
+              },
+            }}
           />
-        </Dialog.Body>
+        </div>
+
         <Dialog.Footer>
-          <button type="submit">Create!</button>
+          <Button type={Button.TYPES.SECONDARY} onClick={onClose}>
+            Cancel
+          </Button>
+          <Button htmlType="submit">Create!</Button>
         </Dialog.Footer>
       </form>
     </Dialog>

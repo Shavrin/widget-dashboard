@@ -1,14 +1,14 @@
 import { useCallback } from "react";
-import { useSettings } from "../hooks/useSettings.ts";
+import { StickTo, useSettings } from "../hooks/useSettings.ts";
 import { Widget } from "../Widget/Widget.tsx";
 import { type WidgetType } from "../Widget/types.ts";
-import { ButtonsContainer } from "./ButtonsContainer.tsx";
+import { CommandCenter } from "./CommandCenter.tsx";
 import { useWidgets } from "../hooks/useWidgets.ts";
 
-const layoutMap = {
-  Middle: "flex justify-center items-center gap-5",
-  Left: "flex justify-start items-center gap-5",
-  Right: "flex justify-end items-center gap-5",
+const layoutMap: Record<StickTo, string> = {
+  Middle: "flex justify-center items-center",
+  Left: "flex justify-start items-center",
+  Right: "flex justify-end items-center",
 };
 
 export function Dashboard() {
@@ -32,34 +32,31 @@ export function Dashboard() {
   );
 
   const editWidget = useCallback(
-    ({ id, title, script }: WidgetType) => {
+    ({ id, script }: WidgetType) => {
       setWidgets((widgets) =>
-        widgets.map((widget) =>
-          widget.id === id ? { id, title, script } : widget,
-        ),
+        widgets.map((widget) => (widget.id === id ? { id, script } : widget)),
       );
     },
     [setWidgets],
   );
-  console.log(settings);
+
   const layout = layoutMap[settings.stickTo];
 
   return (
     <div
-      className={`h-full ${layout} flex-wrap bg-gradient-to-t from-cyan-950 to-cyan-900`}
+      className={`h-full ${layout} gap-5 flex-wrap content-center bg-gradient-to-t from-cyan-950 to-cyan-900 p-8`}
     >
-      {widgets.map(({ id, title, script }) => (
+      {widgets.map(({ id, script }) => (
         <Widget
           key={id}
           id={id}
-          title={title}
           script={script}
           remove={removeWidget}
           edit={editWidget}
         />
       ))}
 
-      <ButtonsContainer addWidget={addWidget} />
+      <CommandCenter addWidget={addWidget} />
     </div>
   );
 }

@@ -1,14 +1,8 @@
-import {
-  Dialog,
-  DialogBackdrop,
-  DialogPanel,
-  DialogTitle,
-  Input,
-  Select,
-} from "@headlessui/react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useController, useForm } from "react-hook-form";
 import { Button } from "../Button";
-import { Settings, useSettings } from "../hooks/useSettings.ts";
+import { Settings, StickTo, useSettings } from "../hooks/useSettings.ts";
+import { Dialog } from "../Dialog/Dialog.tsx";
+import { Field, Input, Label, Radio, RadioGroup } from "@headlessui/react";
 
 type SettingsModalProps = {
   isOpen: boolean;
@@ -17,46 +11,51 @@ type SettingsModalProps = {
 
 export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
   const [settings, setSettings] = useSettings();
-  const { register, handleSubmit } = useForm<Settings>();
+  const { handleSubmit, control } = useForm<Settings>();
+  const { field } = useController({ control, name: "stickTo" });
 
   const onSubmit: SubmitHandler<Settings> = (data) => {
     setSettings(data);
     onClose();
   };
 
-  console.log(settings);
   return (
-    <Dialog open={isOpen} onClose={onClose} className="relative z-50">
-      <DialogBackdrop className="fixed inset-0 bg-black/70" />
+    <Dialog open={isOpen} onClose={onClose}>
+      <Dialog.Title>Settings</Dialog.Title>
 
-      <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-        <DialogPanel className="min-h-96 min-w-80 max-w-lg space-y-4 rounded-3xl border-2 border-cyan-200 bg-gray-800 p-8 shadow-2xl shadow-pink-800">
-          <DialogTitle className="text-3xl font-bold text-gray-300">
-            Settings
-          </DialogTitle>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Dialog.Body>
+          <RadioGroup
+            value={field.value}
+            onChange={field.onChange}
+            defaultValue={settings.stickTo ?? StickTo.Middle}
+          >
+            {Object.values(StickTo).map((option) => (
+              <Field key={option} className="flex items-center gap-2">
+                <Radio
+                  value={option}
+                  className="group flex size-5 items-center justify-center rounded-full border bg-white data-[checked]:bg-blue-400"
+                >
+                  <span className="invisible size-2 rounded-full bg-white group-data-[checked]:visible" />
+                </Radio>
+                <Label>{option}</Label>
+              </Field>
+            ))}
+          </RadioGroup>
 
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
-              <Select {...register("stickTo")} defaultValue={settings.stickTo}>
-                <option value="Left">Left</option>
-                <option value="Middle">Middle</option>
-                <option value="Right">Right</option>
-              </Select>
-            </div>
+          <div>
+            Gap
+            <Input type="range" min="0" max="100" step="5" defaultValue="50" />
+          </div>
+        </Dialog.Body>
 
-            <div>
-              <Input {...register("gap")} type="number" />
-            </div>
-
-            <div className="flex gap-4">
-              <Button type={Button.TYPES.SECONDARY} onClick={onClose}>
-                Cancel
-              </Button>
-              <Button htmlType="submit">Save</Button>
-            </div>
-          </form>
-        </DialogPanel>
-      </div>
+        <Dialog.Footer>
+          <Button type={Button.TYPES.SECONDARY} onClick={onClose}>
+            Cancel
+          </Button>
+          <Button htmlType="submit">Save</Button>
+        </Dialog.Footer>
+      </form>
     </Dialog>
   );
 }

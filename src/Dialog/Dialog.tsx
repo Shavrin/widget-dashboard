@@ -13,7 +13,7 @@ const Dialog = ({ children, ...props }: DialogProps) => {
     <HDialog {...props} className="relative z-50">
       <DialogBackdrop className="fixed inset-0 bg-black/70" />
       <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-        <DialogPanel className="min-h-96 min-w-80 max-w-lg space-y-4 rounded-3xl border-2 border-cyan-200 bg-gray-800 p-8 shadow-2xl shadow-pink-800">
+        <DialogPanel className="min-h-96 min-w-80 max-w-full space-y-4 rounded-3xl border-2 border-cyan-200 bg-gray-800 p-8 shadow-2xl shadow-pink-800">
           {children}
         </DialogPanel>
       </div>
@@ -23,7 +23,7 @@ const Dialog = ({ children, ...props }: DialogProps) => {
 
 function Title({ children }: { children: ReactNode }) {
   return (
-    <DialogTitle className="text-3xl font-bold text-gray-300">
+    <DialogTitle className="text-3xl font-bold text-gray-300 mb-4">
       {children}
     </DialogTitle>
   );
@@ -34,7 +34,7 @@ function Body({ children }: { children: ReactNode }) {
 }
 
 function Footer({ children }: { children: ReactNode }) {
-  return <div className="mb-1.5 mt-1.5">{children}</div>;
+  return <div className="mt-6 flex justify-end gap-8">{children}</div>;
 }
 
 const DialogNamespace = Object.assign(Dialog, {
