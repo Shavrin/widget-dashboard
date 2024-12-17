@@ -14,9 +14,11 @@
     "typewatch": "npm run typecheck -- --watch"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.0",
     "prismjs": "^1.29.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.54.1",
     "react-simple-code-editor": "^0.14.1",
     "usehooks-ts": "^3.1.0",
     "uuid": "^11.0.3"
