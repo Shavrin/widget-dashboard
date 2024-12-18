@@ -40,11 +40,9 @@ export function Dashboard() {
     [setWidgets],
   );
 
-  const layout = layoutMap[settings.stickTo];
-
   return (
     <div
-      className={`h-full ${layout} gap-5 flex-wrap content-center bg-gradient-to-t from-stone-900 to-stone-950 p-8`}
+      className={`h-full ${layoutMap[settings.stickTo]} gap-5 flex-wrap content-center bg-gradient-to-t from-stone-900 to-stone-950 p-8`}
     >
       {widgets.map(({ id, script }) => (
         <Widget

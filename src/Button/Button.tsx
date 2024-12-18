@@ -2,7 +2,7 @@ import { Button as HeadlessButton } from "@headlessui/react";
 import React from "react";
 import clsx from "clsx";
 
-type Button = {
+export type ButtonProps = {
   children: React.ReactNode;
   onClick?: () => void;
   type?: keyof typeof ButtonTypes;
@@ -16,7 +16,7 @@ const ButtonTypes = {
 } as const;
 
 const TypeClassMap = {
-  [ButtonTypes.PRIMARY]: "min-w-20 bg-blue-600 text-white hover:bg-blue-500 ",
+  [ButtonTypes.PRIMARY]: "min-w-20 bg-blue-600 text-white hover:bg-blue-500",
   [ButtonTypes.SECONDARY]: "min-w-20 bg-stone-300 hover:bg-stone-400",
   [ButtonTypes.PILL]:
     "bg-blue-600 inline-flex items-center justify-center text-white hover:bg-blue-800",
@@ -27,7 +27,7 @@ export function Button({
   onClick,
   type = ButtonTypes.PRIMARY,
   htmlType = "button",
-}: Button) {
+}: ButtonProps) {
   return (
     <HeadlessButton
       onClick={onClick}
