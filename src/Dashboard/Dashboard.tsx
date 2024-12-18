@@ -44,7 +44,7 @@ export function Dashboard() {
 
   return (
     <div
-      className={`h-full ${layout} gap-5 flex-wrap content-center bg-gradient-to-t from-cyan-950 to-cyan-900 p-8`}
+      className={`h-full ${layout} gap-5 flex-wrap content-center bg-gradient-to-t from-stone-900 to-stone-950 p-8`}
     >
       {widgets.map(({ id, script }) => (
         <Widget

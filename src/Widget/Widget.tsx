@@ -4,7 +4,7 @@ import { type WidgetType } from "./types.ts";
 import { useBoolean } from "usehooks-ts";
 import { Menu } from "../Menu/Menu.tsx";
 import { Button } from "../Button";
-import { Plus } from "../Icons.tsx";
+import { EllipsisVertical } from "../Icons.tsx";
 
 export type WidgetProps = WidgetType & {
   edit: (widget: WidgetType) => void;
@@ -19,17 +19,22 @@ export const Widget = memo(({ script, id, edit, remove }: WidgetProps) => {
   } = useBoolean(false);
 
   return (
-    <div className="group relative min-h-32 min-w-32 resize overflow-hidden rounded-2xl border-2 bg-cyan-800 hover:cursor-grabbing hover:bg-cyan-700">
+    <div
+      tabIndex={0}
+      className="group relative min-h-32 min-w-32 overflow-hidden rounded-2xl bg-black hover:bg-gray-950 shadow-lg shadow-stone-950"
+    >
       <iframe
         srcDoc={script}
+        tabIndex={-1}
         className="pointer-events-none h-full w-full select-none overflow-hidden"
       />
 
-      <div className="invisible absolute right-0 top-0 group-hover:visible">
+      <div className="invisible group-hover:visible group-focus-within:visible absolute right-0 bottom-0 m-2">
         <Menu
+          anchor="bottom"
           trigger={
             <Button type={Button.TYPES.PILL}>
-              <Plus />
+              <EllipsisVertical />
             </Button>
           }
           options={[

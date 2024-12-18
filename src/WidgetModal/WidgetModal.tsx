@@ -41,7 +41,7 @@ export const WidgetModal = ({
         }}
       >
         <Dialog.Title>Create a widget</Dialog.Title>
-        <div className="rounded-lg overflow-hidden resize min-h-80 h-80 min-w-80 w-[1000px]">
+        <div className="rounded-lg overflow-hidden resize min-h-80 h-80 w-full">
           <Editor
             height="100%"
             language="html"
@@ -49,6 +49,8 @@ export const WidgetModal = ({
             theme="vs-dark"
             onChange={(value) => setScript(value ?? "")}
             options={{
+              lineNumbers: "off",
+              guides: { indentation: false },
               codeLens: false,
               padding: { top: 20 },
               minimap: {
@@ -60,9 +62,9 @@ export const WidgetModal = ({
 
         <Dialog.Footer>
           <Button type={Button.TYPES.SECONDARY} onClick={onClose}>
-            Cancel
+            cancel
           </Button>
-          <Button htmlType="submit">Create!</Button>
+          <Button htmlType="submit">{widget ? "edit" : "create"}</Button>
         </Dialog.Footer>
       </form>
     </Dialog>

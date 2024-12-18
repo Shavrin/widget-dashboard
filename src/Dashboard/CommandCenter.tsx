@@ -24,7 +24,7 @@ export function CommandCenter({
   } = useBoolean(false);
 
   return (
-    <div className="fixed bottom-0 left-0 mb-3.5 ml-3.5 flex gap-2">
+    <div className="fixed bottom-2 left-4 flex gap-2">
       <Menu
         trigger={
           <Button type={Button.TYPES.PILL}>

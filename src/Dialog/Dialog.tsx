@@ -2,7 +2,6 @@ import { ReactNode } from "react";
 import {
   DialogTitle,
   Dialog as HDialog,
-  Description,
   type DialogProps,
   DialogBackdrop,
   DialogPanel,
@@ -13,7 +12,7 @@ const Dialog = ({ children, ...props }: DialogProps) => {
     <HDialog {...props} className="relative z-50">
       <DialogBackdrop className="fixed inset-0 bg-black/70" />
       <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-        <DialogPanel className="min-h-96 min-w-80 max-w-full space-y-4 rounded-3xl border-2 border-cyan-200 bg-gray-800 p-8 shadow-2xl shadow-pink-800">
+        <DialogPanel className="min-h-[200px] min-w-80 max-w-full space-y-4 rounded-3xl bg-stone-900 p-8 shadow-xl shadow-black">
           {children}
         </DialogPanel>
       </div>
@@ -23,14 +22,14 @@ const Dialog = ({ children, ...props }: DialogProps) => {
 
 function Title({ children }: { children: ReactNode }) {
   return (
-    <DialogTitle className="text-3xl font-bold text-gray-300 mb-4">
+    <DialogTitle className="text-3xl font-bold text-stone-300 mb-4">
       {children}
     </DialogTitle>
   );
 }
 
 function Body({ children }: { children: ReactNode }) {
-  return <Description>{children}</Description>;
+  return <div>{children}</div>;
 }
 
 function Footer({ children }: { children: ReactNode }) {
