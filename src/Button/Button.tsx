@@ -7,6 +7,7 @@ export type ButtonProps = {
   onClick?: () => void;
   type?: keyof typeof ButtonTypes;
   htmlType?: "button" | "submit" | "reset";
+  ariaLabel?: string;
 };
 
 const ButtonTypes = {
@@ -27,10 +28,12 @@ export function Button({
   onClick,
   type = ButtonTypes.PRIMARY,
   htmlType = "button",
+  ariaLabel,
 }: ButtonProps) {
   return (
     <HeadlessButton
       onClick={onClick}
+      aria-label={ariaLabel}
       className={clsx(
         "h-8 w-8 leading-none rounded-full focus:shadow-outline transition-colors duration-150",
         TypeClassMap[type],

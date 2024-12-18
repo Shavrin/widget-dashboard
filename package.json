@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "test": "vitest",
     "coverage": "vitest --coverage",
-    "coverage:ui": "vitest --ui --coverage",
+    "coverage:ui": "vitest --coverage --ui --watch",
     "prettier": "prettier . --write --config ./.prettierc.json",
     "typecheck": "tsc --project ./tsconfig.app.json",
     "typewatch": "npm run typecheck -- --watch"
@@ -51,6 +51,7 @@
     "prettier": "^3.3.3",
     "prettier-plugin-organize-imports": "^4.1.0",
     "prettier-plugin-tailwindcss": "^0.6.9",
+    "resize-observer-polyfill": "^1.5.1",
     "stylelint": "^16.10.0",
     "stylelint-config-standard-scss": "^13.1.0",
     "tailwindcss": "^3.4.16",

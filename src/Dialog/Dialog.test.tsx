@@ -4,8 +4,10 @@ import { userEvent } from "@testing-library/user-event";
 
 const setup = (props = {}) => {
   const onClose = vi.fn();
+
+  render(<Dialog open onClose={onClose} {...props} />);
+
   return {
-    ...render(<Dialog open onClose={onClose} {...props} />),
     user: userEvent.setup(),
     onClose,
   };

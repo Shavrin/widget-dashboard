@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { StickTo, useSettings } from "../hooks/useSettings.ts";
 import { Widget } from "../Widget/Widget.tsx";
-import { type WidgetType } from "../Widget/types.ts";
+import { type WidgetType } from "../Widget/Widget.tsx";
 import { CommandCenter } from "./CommandCenter.tsx";
 import { useWidgets } from "../hooks/useWidgets.ts";
 

@@ -1,10 +1,14 @@
 import { memo } from "react";
 import { WidgetModal } from "../WidgetModal/WidgetModal.tsx";
-import { type WidgetType } from "./types.ts";
 import { useBoolean } from "usehooks-ts";
 import { Menu } from "../Menu/Menu.tsx";
 import { Button } from "../Button";
 import { EllipsisVertical } from "../Icons.tsx";
+
+export type WidgetType = {
+  id: string;
+  script: string;
+};
 
 export type WidgetProps = WidgetType & {
   edit: (widget: WidgetType) => void;
@@ -20,10 +24,12 @@ export const Widget = memo(({ script, id, edit, remove }: WidgetProps) => {
 
   return (
     <div
+      aria-label="widget"
       tabIndex={0}
       className="group relative min-h-32 min-w-32 overflow-hidden rounded-2xl bg-black hover:bg-gray-950 shadow-lg shadow-stone-950"
     >
       <iframe
+        title="widget content"
         srcDoc={script}
         tabIndex={-1}
         className="pointer-events-none h-full w-full select-none overflow-hidden"
@@ -33,7 +39,7 @@ export const Widget = memo(({ script, id, edit, remove }: WidgetProps) => {
         <Menu
           anchor="bottom"
           trigger={
-            <Button type={Button.TYPES.PILL}>
+            <Button type={Button.TYPES.PILL} ariaLabel="options">
               <EllipsisVertical />
             </Button>
           }

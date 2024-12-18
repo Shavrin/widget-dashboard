@@ -4,12 +4,12 @@ import { Settings, useSettings } from "../hooks/useSettings.ts";
 import { Dialog } from "../Dialog/Dialog.tsx";
 import { Field, Label, Select } from "@headlessui/react";
 
-type SettingsModalProps = {
-  isOpen: boolean;
+export type SettingsModalProps = {
+  open: boolean;
   onClose: () => void;
 };
 
-export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
+export function SettingsModal({ open, onClose }: SettingsModalProps) {
   const [settings, setSettings] = useSettings();
   const { handleSubmit, control } = useForm<Settings>({
     defaultValues: settings,
@@ -22,7 +22,7 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
   };
 
   return (
-    <Dialog open={isOpen} onClose={onClose}>
+    <Dialog open={open} onClose={onClose}>
       <Dialog.Title>Settings</Dialog.Title>
 
       <form onSubmit={handleSubmit(onSubmit)}>
