@@ -18,6 +18,17 @@ export const Timer = () => {
   );
 };
 
+export const DateWidget = () => {
+  return (
+    <div
+      data-testid="date widget"
+      className="text-3xl font-futura text-white font-bold h-full flex justify-center items-center"
+    >
+      {new Date().toDateString()}
+    </div>
+  );
+};
+
 export const RandomPokemon = () => {
   const [imgSource, setImgSource] = useState();
 
