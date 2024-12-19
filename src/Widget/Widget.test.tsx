@@ -53,8 +53,8 @@ test("renders Widget", async () => {
 
   await user.click(screen.getByRole("button", { name: "options" }));
 
-  expect(screen.getByRole("menuitem", { name: "Edit" })).toBeInTheDocument();
-  expect(screen.getByRole("menuitem", { name: "Remove" })).toBeInTheDocument();
+  expect(screen.getByRole("menuitem", { name: "edit" })).toBeInTheDocument();
+  expect(screen.getByRole("menuitem", { name: "remove" })).toBeInTheDocument();
 });
 
 test("remove action removes the widget", async () => {
@@ -62,7 +62,7 @@ test("remove action removes the widget", async () => {
 
   await user.click(screen.getByRole("button", { name: "options" }));
 
-  await user.click(screen.getByRole("menuitem", { name: "Remove" }));
+  await user.click(screen.getByRole("menuitem", { name: "remove" }));
 
   expect(remove).toHaveBeenCalled();
 });
@@ -77,7 +77,7 @@ test("edit action opens WidgetModal with correct props", async () => {
   const { user, edit } = setup();
 
   await user.click(screen.getByRole("button", { name: "options" }));
-  await user.click(screen.getByRole("menuitem", { name: "Edit" }));
+  await user.click(screen.getByRole("menuitem", { name: "edit" }));
 
   expect(WidgetModal).toHaveBeenCalledWith(
     expect.objectContaining({
