@@ -28,14 +28,14 @@ async function openEditWidgetDialog(
 
 async function createNewWidget(
   page: PlaywrightTestArgs["page"],
-  widgetScript: string,
+  widgetName: string,
 ) {
   await openCreateWidgetDialog(page);
 
-  await expect(page.getByText("root")).toBeVisible();
+  const widgetTypeDropdown = page.getByLabel("Choose widget type:");
+  await expect(widgetTypeDropdown).toBeVisible();
 
-  await page.getByLabel("Editor content;Press Alt+F1").clear();
-  await page.getByLabel("Editor content;Press Alt+F1").fill(widgetScript);
+  await widgetTypeDropdown.selectOption(widgetName);
 
   await page.getByRole("button", { name: "create" }).click();
 
@@ -47,13 +47,14 @@ async function createNewWidget(
 async function editWidget(
   page: PlaywrightTestArgs["page"],
   index: number = 0,
-  widgetScript: string,
+  widgetName: string,
 ) {
   await openEditWidgetDialog(page, index);
 
-  await page.getByLabel("Editor content;Press Alt+F1").clear();
+  const widgetTypeDropdown = page.getByLabel("Choose widget type:");
+  await expect(widgetTypeDropdown).toBeVisible();
 
-  await page.getByLabel("Editor content;Press Alt+F1").fill(widgetScript);
+  await widgetTypeDropdown.selectOption(widgetName);
 
   await page.getByRole("button", { name: "edit" }).click();
 }
@@ -68,14 +69,6 @@ async function removeWidget(
     .first()
     .click();
   await page.getByRole("menuitem", { name: "remove" }).click();
-}
-
-function getWidgetContent(page: PlaywrightTestArgs["page"], index: number = 0) {
-  return page
-    .getByLabel("widget")
-    .nth(index)
-    .getByTitle("widget content")
-    .contentFrame();
 }
 
 async function openSettingsDialog(page: PlaywrightTestArgs["page"]) {
@@ -111,11 +104,11 @@ test.beforeEach(async ({ page }) => {
   await page.evaluate(() => window.localStorage.clear());
 });
 
-test("page has correct title", async ({ page }) => {
+test("page has correct title, widgets, and options button", async ({
+  page,
+}) => {
   await expect(page).toHaveTitle("Widget Dashboard");
-});
 
-test("has 3 widgets in the beginning and options button", async ({ page }) => {
   await expect(page.getByLabel("widget")).toHaveCount(3);
 
   await expect(page.getByRole("button", { name: "Options" })).toBeVisible();
@@ -124,24 +117,17 @@ test("has 3 widgets in the beginning and options button", async ({ page }) => {
 test("can create a new widget", async ({ page }) => {
   await expect(page.getByLabel("widget")).toHaveCount(3);
 
-  await createNewWidget(page, "<button>test</button>");
+  await createNewWidget(page, "RandomPokemon");
 
   await expect(page.getByLabel("widget")).toHaveCount(4);
 
-  await expect(
-    getWidgetContent(page, 3).getByRole("button", { name: "test" }),
-  ).toBeVisible();
+  await expect(page.getByTestId("pokemon widget")).toHaveCount(2);
 });
 
 test("can abort creating a widget", async ({ page }) => {
   await expect(page.getByLabel("widget")).toHaveCount(3);
 
   await openCreateWidgetDialog(page);
-
-  await page.locator(".view-lines > div:nth-child(3)").click();
-  await page
-    .getByLabel("Editor content;Press Alt+F1")
-    .fill("<button>test</button>");
 
   await page.getByRole("button", { name: "cancel" }).click();
 
@@ -171,13 +157,11 @@ test("can remove widgets", async ({ page }) => {
 test("can edit widgets", async ({ page }) => {
   await expect(page.getByLabel("widget")).toHaveCount(3);
 
-  await editWidget(page, 1, "<button>test</button>");
+  await editWidget(page, 0, "RandomPokemon");
 
   await expect(page.getByLabel("widget")).toHaveCount(3);
 
-  await expect(
-    getWidgetContent(page, 1).getByRole("button", { name: "test" }),
-  ).toBeVisible();
+  await expect(page.getByTestId("pokemon widget")).toHaveCount(2);
 });
 
 test("can abort editing widgets", async ({ page }) => {
@@ -189,44 +173,26 @@ test("can abort editing widgets", async ({ page }) => {
   await expect(
     page.getByRole("heading", { name: "Edit widget" }),
   ).not.toBeVisible();
-
-  await expect(
-    getWidgetContent(page, 1).getByRole("button", { name: "test" }),
-  ).not.toBeVisible();
 });
 
 test("widgets are preserved after refresh", async ({ page }) => {
   await expect(page.getByLabel("widget")).toHaveCount(3);
 
-  await createNewWidget(page, "<button>1</button>");
-  await createNewWidget(page, "<button>2</button>");
-  await createNewWidget(page, "<button>3</button>");
+  await createNewWidget(page, "RandomPokemon");
+  await createNewWidget(page, "Timer");
+  await createNewWidget(page, "RandomImage");
 
   await expect(page.getByLabel("widget")).toHaveCount(6);
-
-  await expect(
-    getWidgetContent(page, 3).getByRole("button", { name: "1" }),
-  ).toBeVisible();
-  await expect(
-    getWidgetContent(page, 4).getByRole("button", { name: "2" }),
-  ).toBeVisible();
-  await expect(
-    getWidgetContent(page, 5).getByRole("button", { name: "3" }),
-  ).toBeVisible();
+  await expect(page.getByTestId("pokemon widget")).toHaveCount(2);
+  await expect(page.getByTestId("timer widget")).toHaveCount(2);
+  await expect(page.getByTestId("random image widget")).toHaveCount(2);
 
   await page.reload();
 
   await expect(page.getByLabel("widget")).toHaveCount(6);
-
-  await expect(
-    getWidgetContent(page, 3).getByRole("button", { name: "1" }),
-  ).toBeVisible();
-  await expect(
-    getWidgetContent(page, 4).getByRole("button", { name: "2" }),
-  ).toBeVisible();
-  await expect(
-    getWidgetContent(page, 5).getByRole("button", { name: "3" }),
-  ).toBeVisible();
+  await expect(page.getByTestId("pokemon widget")).toHaveCount(2);
+  await expect(page.getByTestId("timer widget")).toHaveCount(2);
+  await expect(page.getByTestId("random image widget")).toHaveCount(2);
 });
 
 test("can change settings", async ({ page }) => {

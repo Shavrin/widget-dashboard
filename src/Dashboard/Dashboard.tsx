@@ -32,9 +32,11 @@ export function Dashboard() {
   );
 
   const editWidget = useCallback(
-    ({ id, script }: WidgetType) => {
+    ({ id, widgetName }: WidgetType) => {
       setWidgets((widgets) =>
-        widgets.map((widget) => (widget.id === id ? { id, script } : widget)),
+        widgets.map((widget) =>
+          widget.id === id ? { id, widgetName } : widget,
+        ),
       );
     },
     [setWidgets],
@@ -44,11 +46,11 @@ export function Dashboard() {
     <main
       className={`h-lvh ${layoutMap[settings.stickTo]} gap-5 flex-wrap content-center bg-gradient-to-t from-stone-900 to-stone-950 p-8`}
     >
-      {widgets.map(({ id, script }) => (
+      {widgets.map(({ id, widgetName }) => (
         <Widget
           key={id}
           id={id}
-          script={script}
+          widgetName={widgetName}
           remove={() => removeWidget(id)}
           edit={editWidget}
         />

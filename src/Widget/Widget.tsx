@@ -4,10 +4,11 @@ import { useBoolean } from "usehooks-ts";
 import { Menu } from "../Menu/Menu.tsx";
 import { Button } from "../Button";
 import { EllipsisVertical } from "../Icons.tsx";
+import * as sampleWidgets from "../SampleWidgets";
 
 export type WidgetType = {
   id: string;
-  script: string;
+  widgetName: keyof typeof sampleWidgets;
 };
 
 export type WidgetProps = WidgetType & {
@@ -15,25 +16,24 @@ export type WidgetProps = WidgetType & {
   remove: () => void;
 };
 
-export const Widget = memo(({ script, id, edit, remove }: WidgetProps) => {
+export const Widget = memo(({ widgetName, id, edit, remove }: WidgetProps) => {
   const {
     value: widgetDialogVisible,
     setTrue: showWidgetDialog,
     setFalse: hideWidgetDialog,
   } = useBoolean(false);
 
+  const WidgetComponent = sampleWidgets[widgetName];
+
   return (
     <div
       aria-label="widget"
       tabIndex={0}
-      className="group relative min-h-32 min-w-32 overflow-hidden rounded-2xl bg-black hover:bg-gray-950 shadow-lg shadow-stone-950"
+      className="group relative min-h-48 min-w-80 overflow-hidden rounded-2xl bg-black hover:bg-gray-950 shadow-lg shadow-stone-950"
     >
-      <iframe
-        title="widget content"
-        srcDoc={script}
-        tabIndex={-1}
-        className="pointer-events-none h-full w-full select-none overflow-hidden"
-      />
+      <div className="pointer-events-none absolute left-0 right-0 top-0 bottom-0 select-none overflow-hidden">
+        <WidgetComponent />
+      </div>
 
       <div className="invisible group-hover:visible group-focus-within:visible absolute right-0 bottom-0 m-2">
         <Menu
@@ -53,7 +53,7 @@ export const Widget = memo(({ script, id, edit, remove }: WidgetProps) => {
       <WidgetModal
         open={widgetDialogVisible}
         onClose={hideWidgetDialog}
-        widget={{ script, id }}
+        widget={{ widgetName, id }}
         onConfirm={edit}
       />
     </div>

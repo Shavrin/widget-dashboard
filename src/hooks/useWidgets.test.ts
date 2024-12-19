@@ -1,19 +1,19 @@
 import { act, renderHook } from "@testing-library/react";
-import { useWidgets } from "./useWidgets.ts";
-import { Timer, RandomPokemon, RandomImage } from "../SampleWidgets";
+import { defaultWidgets, useWidgets } from "./useWidgets.ts";
+import { WidgetType } from "../Widget/Widget.tsx";
 
 test("retrieves default widgets when nothing is stored in localStorage", () => {
   const { result } = renderHook(useWidgets);
 
   expect(result.current).toEqual([
-    [Timer, RandomPokemon, RandomImage],
+    defaultWidgets,
     expect.any(Function),
     expect.any(Function),
   ]);
 });
 
 test("retrieves correct widgets from localStorage", () => {
-  const customWidgets = [{ id: "1", script: "Custom widget" }];
+  const customWidgets = [{ id: "1", widgetName: "Timer" }];
 
   localStorage.setItem("widgets", JSON.stringify(customWidgets));
 
@@ -28,7 +28,7 @@ test("retrieves correct widgets from localStorage", () => {
 
 test("allows saving widgets", () => {
   const localStorageSpy = vi.spyOn(Storage.prototype, "setItem");
-  const customWidgets = [{ id: "1", script: "Custom widget" }];
+  const customWidgets: WidgetType[] = [{ id: "1", widgetName: "Timer" }];
   const { result } = renderHook(useWidgets);
 
   act(() => {

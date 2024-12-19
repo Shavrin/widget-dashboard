@@ -1,25 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { useBoolean } from "usehooks-ts";
-import {
-  defaultScript,
-  WidgetModal,
-  type WidgetModalProps,
-} from "./WidgetModal.tsx";
-
-// monaco-editor is not stable in jsdom environment
-vi.mock("@monaco-editor/react", async () => {
-  return {
-    Editor: vi
-      .fn()
-      .mockImplementation(({ value, onChange }) => (
-        <textarea
-          value={value}
-          onChange={(event) => onChange(event.target.value)}
-        />
-      )),
-  };
-});
+import { WidgetModal, type WidgetModalProps } from "./WidgetModal.tsx";
+import { WidgetType } from "../Widget/Widget.tsx";
 
 function TestComponent(props: Omit<WidgetModalProps, "open" | "onClose">) {
   const { value, setFalse, setTrue } = useBoolean(false);
@@ -32,7 +15,7 @@ function TestComponent(props: Omit<WidgetModalProps, "open" | "onClose">) {
   );
 }
 
-function setup(props: Partial<WidgetModalProps> = {}) {
+function setup(props: Partial<WidgetModalProps> | undefined = {}) {
   const onConfirm = vi.fn();
 
   render(<TestComponent onConfirm={onConfirm} {...props} />);
@@ -44,20 +27,18 @@ function setup(props: Partial<WidgetModalProps> = {}) {
   };
 }
 
-test.each([
+test.each<[string, WidgetType | undefined, string, string]>([
   ["Create mode", undefined, "Create a widget", "create"],
   [
     "Edit mode",
     {
       id: "1",
-      script: "<div>custom test script</div>",
+      widgetName: "Timer",
     },
     "Edit widget",
     "edit",
   ],
 ])("renders widget modal in %s", async (_, widget, title, confirmText) => {
-  const newScript = "<a>new</a>";
-
   const { openModalButton, onConfirm, user } = setup({ widget });
 
   expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
@@ -68,13 +49,18 @@ test.each([
 
   expect(screen.getByRole("heading", { name: title })).toBeInTheDocument();
 
-  const monacoEditor = screen.getByRole("textbox");
+  const widgetTypeDropdown = screen.getByRole("combobox", {
+    name: "Choose widget type:",
+  });
 
-  expect(monacoEditor).toBeInTheDocument();
-  expect(monacoEditor).toHaveValue(widget?.script ?? defaultScript);
+  expect(widgetTypeDropdown).toBeInTheDocument();
 
-  await user.clear(monacoEditor);
-  await user.type(monacoEditor, newScript);
+  expect(widgetTypeDropdown).toHaveValue("Timer");
+
+  await user.selectOptions(
+    widgetTypeDropdown,
+    screen.getByRole("option", { name: "RandomPokemon" }),
+  );
 
   expect(screen.getByRole("button", { name: "cancel" })).toBeInTheDocument();
   expect(screen.getByRole("button", { name: confirmText })).toBeInTheDocument();
@@ -83,7 +69,7 @@ test.each([
 
   expect(onConfirm).toBeCalledWith({
     id: widget?.id ?? expect.any(String),
-    script: newScript,
+    name: "RandomPokemon",
   });
 
   expect(screen.queryByRole("dialog")).not.toBeInTheDocument();

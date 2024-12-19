@@ -3,7 +3,8 @@ import { v4 as uuid } from "uuid";
 import { Dialog } from "../Dialog/Dialog.tsx";
 import { type WidgetType } from "../Widget/Widget.ts";
 import { Button } from "../Button";
-import { Editor } from "@monaco-editor/react";
+import { Field, Label, Select } from "@headlessui/react";
+import * as sampleWidgets from "../SampleWidgets";
 
 export type WidgetModalProps = {
   onConfirm: (props: WidgetType) => void;
@@ -12,18 +13,13 @@ export type WidgetModalProps = {
   onClose: () => void;
 };
 
-export const defaultScript = `<div id="root"></div>
-<script>
-    
-</script>`;
-
 export const WidgetModal = ({
   onConfirm,
   widget,
   open,
   onClose,
 }: WidgetModalProps) => {
-  const [script, setScript] = useState(widget?.script ?? defaultScript);
+  const [widgetName, setWidgetName] = useState(widget?.widgetName ?? "Timer");
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -34,35 +30,32 @@ export const WidgetModal = ({
 
           onConfirm({
             id: widget?.id ?? uuid(),
-            script,
+            widgetName,
           });
 
           onClose();
-
-          setScript(defaultScript);
         }}
       >
         <Dialog.Title>
           {widget ? "Edit widget" : "Create a widget"}
         </Dialog.Title>
-        <div className="rounded-lg overflow-hidden resize min-h-80 h-80 w-full">
-          <Editor
-            height="100%"
-            language="html"
-            theme="vs-dark"
-            options={{
-              lineNumbers: "off",
-              guides: { indentation: false },
-              codeLens: false,
-              padding: { top: 20 },
-              minimap: {
-                enabled: false,
-              },
-            }}
-            onChange={(value) => setScript(value ?? "")}
-            value={script}
-          />
-        </div>
+
+        <Field>
+          <Label className="text-white">Choose widget type: </Label>
+          <Select
+            value={widgetName}
+            onChange={(event) =>
+              setWidgetName(event.target.value as keyof typeof sampleWidgets)
+            }
+            className="rounded w-full p-1 bg-stone-300 text-stone-900"
+          >
+            {Object.keys(sampleWidgets).map((key) => (
+              <option key={key} value={key}>
+                {key}
+              </option>
+            ))}
+          </Select>
+        </Field>
 
         <Dialog.Footer>
           <Button type={Button.TYPES.SECONDARY} onClick={onClose}>

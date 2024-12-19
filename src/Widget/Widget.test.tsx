@@ -1,13 +1,11 @@
 import { render, screen } from "@testing-library/react";
 import { Widget } from "./Widget.tsx";
-import { randomUUID } from "node:crypto";
+import { v4 as uuid } from "uuid";
 import ResizeObserver from "resize-observer-polyfill";
 import { userEvent } from "@testing-library/user-event";
 import { WidgetModal } from "../WidgetModal/WidgetModal.tsx";
 
 global.ResizeObserver = ResizeObserver;
-
-const customWidgetScript = "<div>inside widget</div>";
 
 afterEach(() => {
   vi.restoreAllMocks();
@@ -17,14 +15,7 @@ function setup() {
   const edit = vi.fn();
   const remove = vi.fn();
 
-  render(
-    <Widget
-      id={randomUUID()}
-      script={customWidgetScript}
-      edit={edit}
-      remove={remove}
-    />,
-  );
+  render(<Widget id={uuid()} widgetName="Timer" edit={edit} remove={remove} />);
 
   return {
     edit,
@@ -36,12 +27,7 @@ function setup() {
 test("renders Widget", async () => {
   const { user } = setup();
 
-  const iframe = screen.getByTitle("widget content");
-
-  expect(iframe).toBeInTheDocument();
-  expect(iframe).toHaveAttribute("srcdoc", customWidgetScript);
-
-  expect(document.body).toHaveFocus();
+  expect(screen.getByTestId("timer widget")).toBeInTheDocument();
 
   await user.tab();
 
@@ -86,7 +72,7 @@ test("edit action opens WidgetModal with correct props", async () => {
       open: true,
       widget: {
         id: expect.any(String),
-        script: customWidgetScript,
+        name: "Timer",
       },
     }),
     {},

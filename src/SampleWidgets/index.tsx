@@ -1,58 +1,59 @@
-import { v4 as uuid } from "uuid";
+import { useInterval } from "usehooks-ts";
+import { useEffect, useState } from "react";
 
-export const Timer = {
-  id: uuid(),
-  script: `
-    <html style="height: 100%">
-        <body style="height: 100%;margin: 0;">
-            <div id='root' style="font-size: 3rem; font-family: monospace; font-weight: bold; color: white; height: 100%; display: flex; justify-content: center; align-items: center;"></div>
-        </body>
-        <script>
-            const el = document.getElementById("root");
+export const Timer = () => {
+  const [time, setTime] = useState(() => new Date().toLocaleTimeString());
 
-            (function counter() {
-                el.innerHTML = new Date().toLocaleTimeString();
-                setTimeout(counter, 1000);
-            })()
-            
-        </script>
-    </html>`,
+  useInterval(() => {
+    setTime(new Date().toLocaleTimeString());
+  }, 1000);
+
+  return (
+    <div
+      data-testid="timer widget"
+      className="text-5xl font-futura text-white font-bold h-full flex justify-center items-center"
+    >
+      {time}
+    </div>
+  );
 };
 
-export const RandomPokemon = {
-  id: uuid(),
-  script: `
-    <html style="height: 100%">
-        <body style="overflow: hidden; margin: 0; height: 100%;">
-            <div id='root' style="height: 100%"></div>
-            <script>
-                window.fetch("https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0")
-                .then(response => response.json())
-                .then((data) =>{
-                    const randomPokemon =data.results[Math.floor(Math.random()*data.results.length)];
-                    
-                    window.fetch(randomPokemon.url)
-                        .then(response => response.json())
-                        .then(data => {
-                            const sprite = data.sprites.front_default;
-                            document.getElementById("root").innerHTML = "<img style='height: 100%; width: 100%; object-fit: contain;' src='"  + sprite + "'/>" 
-                    })
-                })
-                    
-            </script>
-        </body>
-<html/>`,
+export const RandomPokemon = () => {
+  const [imgSource, setImgSource] = useState();
+
+  useEffect(() => {
+    fetch("https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0")
+      .then((response) => response.json())
+      .then((data) => {
+        const randomPokemon =
+          data.results[Math.floor(Math.random() * data.results.length)];
+
+        return window.fetch(randomPokemon.url);
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        const sprite = data.sprites.front_default;
+        setImgSource(sprite);
+      });
+  }, []);
+
+  return (
+    <img
+      data-testid="pokemon widget"
+      src={imgSource}
+      alt="random pokemon"
+      className="object-contain w-full h-full"
+    />
+  );
 };
 
-export const RandomImage = {
-  id: uuid(),
-  script: `<html style="height: 100%">
-   <body style="overflow: hidden; margin: 0; height: 100%;">
-      <div id="root" style="height: 100%"></div>
-      <script>
-         window.fetch("https://picsum.photos/600/300").then(data =>{  
-             document.getElementById("root").innerHTML = "<img style='height: 100%; width: 100%;' src='"  + data.url + "'/>"; })
-      </script>
-   </body>
-<html/>`,
+export const RandomImage = () => {
+  return (
+    <img
+      data-testid="random image widget"
+      src="https://picsum.photos/600/300"
+      alt="random pokemon"
+      className="w-full h-full"
+    />
+  );
 };
