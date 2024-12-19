@@ -1,4 +1,8 @@
-import { render, screen } from "@testing-library/react";
+import {
+  render,
+  screen,
+  waitForElementToBeRemoved,
+} from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { useBoolean } from "usehooks-ts";
 import { WidgetModal, type WidgetModalProps } from "./WidgetModal.tsx";
@@ -28,7 +32,7 @@ function setup(props: Partial<WidgetModalProps> | undefined = {}) {
 }
 
 test.each<[string, WidgetType | undefined, string, string]>([
-  ["Create mode", undefined, "Create a widget", "create"],
+  ["Create mode", undefined, "Create a widget", "Create"],
   [
     "Edit mode",
     {
@@ -36,7 +40,7 @@ test.each<[string, WidgetType | undefined, string, string]>([
       widgetName: "Timer",
     },
     "Edit widget",
-    "edit",
+    "Edit",
   ],
 ])("renders widget modal in %s", async (_, widget, title, confirmText) => {
   const { openModalButton, onConfirm, user } = setup({ widget });
@@ -72,7 +76,7 @@ test.each<[string, WidgetType | undefined, string, string]>([
     widgetName: "RandomPokemon",
   });
 
-  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  await waitForElementToBeRemoved(() => screen.queryByRole("dialog"));
 });
 
 test("cancel button closes modal", async () => {
@@ -86,5 +90,5 @@ test("cancel button closes modal", async () => {
 
   await user.click(screen.getByRole("button", { name: "cancel" }));
 
-  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  await waitForElementToBeRemoved(() => screen.queryByRole("dialog"));
 });

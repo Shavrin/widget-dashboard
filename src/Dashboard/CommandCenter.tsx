@@ -32,8 +32,8 @@ export function CommandCenter({
           </Button>
         }
         options={[
-          { name: "Settings", onClick: openSettingsModal },
           { name: "Create widget", onClick: openWidgetModal },
+          { name: "Settings", onClick: openSettingsModal },
         ]}
       />
 

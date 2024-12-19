@@ -29,7 +29,7 @@ export const Widget = memo(({ widgetName, id, edit, remove }: WidgetProps) => {
     <div
       aria-label="widget"
       tabIndex={0}
-      className="group relative min-h-48 min-w-80 overflow-hidden rounded-2xl bg-black hover:bg-gray-950 shadow-lg shadow-stone-950"
+      className="group relative min-h-48 min-w-80 transition-transform ease-in-out hover:scale-105 overflow-hidden rounded-2xl bg-black hover:bg-gray-950 shadow-lg shadow-stone-950"
     >
       <div className="pointer-events-none absolute left-0 right-0 top-0 bottom-0 select-none overflow-hidden">
         <WidgetComponent />
@@ -44,10 +44,10 @@ export const Widget = memo(({ widgetName, id, edit, remove }: WidgetProps) => {
             </Button>
           }
           options={[
-            { name: "edit", onClick: showWidgetDialog },
-            { name: "remove", onClick: remove },
+            { name: "Edit", onClick: showWidgetDialog },
+            { name: "Remove", onClick: remove },
           ]}
-        ></Menu>
+        />
       </div>
 
       <WidgetModal

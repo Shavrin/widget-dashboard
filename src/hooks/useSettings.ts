@@ -4,6 +4,8 @@ export const StickTo = {
   Left: "Left",
   Middle: "Middle",
   Right: "Right",
+  Top: "Top",
+  Bottom: "Bottom",
 } as const;
 
 export type StickTo = keyof typeof StickTo;

@@ -61,7 +61,7 @@ export const WidgetModal = ({
           <Button type={Button.TYPES.SECONDARY} onClick={onClose}>
             cancel
           </Button>
-          <Button htmlType="submit">{widget ? "edit" : "create"}</Button>
+          <Button htmlType="submit">{widget ? "Edit" : "Create"}</Button>
         </Dialog.Footer>
       </form>
     </Dialog>

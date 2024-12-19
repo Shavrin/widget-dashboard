@@ -6,9 +6,11 @@ import { CommandCenter } from "./CommandCenter.tsx";
 import { useWidgets } from "../hooks/useWidgets.ts";
 
 const layoutMap: Record<StickTo, string> = {
-  Middle: "flex justify-center items-center",
-  Left: "flex justify-start items-center",
-  Right: "flex justify-end items-center",
+  Middle: "justify-center content-center",
+  Left: "justify-start content-center",
+  Right: "justify-end content-center",
+  Top: "justify-center content-start",
+  Bottom: "justify-center content-end",
 };
 
 export function Dashboard() {
@@ -44,7 +46,7 @@ export function Dashboard() {
 
   return (
     <main
-      className={`h-lvh ${layoutMap[settings.stickTo]} gap-5 flex-wrap content-center bg-gradient-to-t from-stone-900 to-stone-950 p-8`}
+      className={`h-lvh flex items-center ${layoutMap[settings.stickTo]} gap-5 flex-wrap bg-gradient-to-t from-stone-900 to-stone-950 p-8`}
     >
       {widgets.map(({ id, widgetName }) => (
         <Widget

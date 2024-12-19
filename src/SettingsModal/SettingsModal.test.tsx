@@ -1,4 +1,8 @@
-import { render, screen } from "@testing-library/react";
+import {
+  render,
+  screen,
+  waitForElementToBeRemoved,
+} from "@testing-library/react";
 import { SettingsModal, SettingsModalProps } from "./SettingsModal.tsx";
 import { userEvent } from "@testing-library/user-event";
 import { useBoolean } from "usehooks-ts";
@@ -42,8 +46,8 @@ test("renders settings modal", async () => {
 
   expect(stickToDropdown).toHaveValue("Middle");
 
-  expect(screen.getByRole("button", { name: "cancel" })).toBeInTheDocument();
-  expect(screen.getByRole("button", { name: "save" })).toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "Cancel" })).toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "Save" })).toBeInTheDocument();
 });
 
 test("cancel button closes modal", async () => {
@@ -51,9 +55,9 @@ test("cancel button closes modal", async () => {
 
   await userEvent.click(openModalButton);
 
-  await user.click(screen.getByRole("button", { name: "cancel" }));
+  await user.click(screen.getByRole("button", { name: "Cancel" }));
 
-  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  await waitForElementToBeRemoved(() => screen.queryByRole("dialog"));
 });
 
 test("changing settings works", async () => {
@@ -74,7 +78,7 @@ test("changing settings works", async () => {
 
   expect(stickToDropdown).toHaveValue("Left");
 
-  await user.click(screen.getByRole("button", { name: "save" }));
+  await user.click(screen.getByRole("button", { name: "Save" }));
 
-  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  await waitForElementToBeRemoved(() => screen.queryByRole("dialog"));
 });

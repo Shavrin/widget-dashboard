@@ -11,6 +11,8 @@
     "test": "vitest",
     "coverage": "vitest --coverage",
     "coverage:ui": "vitest --coverage --ui --watch",
+    "pw": "playwright test",
+    "pw:ui": "playwright test --ui",
     "prettier": "prettier . --write --config ./.prettierc.json",
     "typecheck": "tsc --project ./tsconfig.app.json",
     "typewatch": "npm run typecheck -- --watch"
@@ -47,6 +49,7 @@
     "eslint-plugin-react-refresh": "^0.4.14",
     "globals": "^15.11.0",
     "jsdom": "^25.0.1",
+    "jsdom-testing-mocks": "^1.13.1",
     "postcss": "^8.4.49",
     "prettier": "^3.3.3",
     "prettier-plugin-organize-imports": "^4.1.0",
