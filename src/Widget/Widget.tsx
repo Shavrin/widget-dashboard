@@ -12,7 +12,7 @@ export type WidgetType = {
 
 export type WidgetProps = WidgetType & {
   edit: (widget: WidgetType) => void;
-  remove: (id: string) => void;
+  remove: () => void;
 };
 
 export const Widget = memo(({ script, id, edit, remove }: WidgetProps) => {
@@ -44,8 +44,8 @@ export const Widget = memo(({ script, id, edit, remove }: WidgetProps) => {
             </Button>
           }
           options={[
-            { name: "Edit", onClick: showWidgetDialog },
-            { name: "Remove", onClick: () => remove(id) },
+            { name: "edit", onClick: showWidgetDialog },
+            { name: "remove", onClick: remove },
           ]}
         ></Menu>
       </div>

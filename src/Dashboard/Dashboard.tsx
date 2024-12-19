@@ -41,20 +41,20 @@ export function Dashboard() {
   );
 
   return (
-    <div
-      className={`h-full ${layoutMap[settings.stickTo]} gap-5 flex-wrap content-center bg-gradient-to-t from-stone-900 to-stone-950 p-8`}
+    <main
+      className={`h-lvh ${layoutMap[settings.stickTo]} gap-5 flex-wrap content-center bg-gradient-to-t from-stone-900 to-stone-950 p-8`}
     >
       {widgets.map(({ id, script }) => (
         <Widget
           key={id}
           id={id}
           script={script}
-          remove={removeWidget}
+          remove={() => removeWidget(id)}
           edit={editWidget}
         />
       ))}
 
       <CommandCenter addWidget={addWidget} />
-    </div>
+    </main>
   );
 }

@@ -38,6 +38,8 @@ export const WidgetModal = ({
           });
 
           onClose();
+
+          setScript(defaultScript);
         }}
       >
         <Dialog.Title>
