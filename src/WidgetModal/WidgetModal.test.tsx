@@ -69,7 +69,7 @@ test.each<[string, WidgetType | undefined, string, string]>([
 
   expect(onConfirm).toBeCalledWith({
     id: widget?.id ?? expect.any(String),
-    name: "RandomPokemon",
+    widgetName: "RandomPokemon",
   });
 
   expect(screen.queryByRole("dialog")).not.toBeInTheDocument();

@@ -72,7 +72,7 @@ test("edit action opens WidgetModal with correct props", async () => {
       open: true,
       widget: {
         id: expect.any(String),
-        name: "Timer",
+        widgetName: "Timer",
       },
     }),
     {},
