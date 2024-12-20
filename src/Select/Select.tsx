@@ -1,6 +1,6 @@
 import { Select as HSelect, Field, Label } from "@headlessui/react";
 
-type SelectProps = {
+export type SelectProps = {
   label: string;
   value: string;
   onChange: (value: string) => void;
