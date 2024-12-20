@@ -1,11 +1,11 @@
 import { useLocalStorage } from "usehooks-ts";
 import { type WidgetType } from "../Widget/Widget.ts";
 import { v4 as uuid } from "uuid";
-import * as sampleWidgets from "../SampleWidgets";
+import { WidgetName } from "../Widget/Widget.tsx";
 
 export const defaultWidgets: {
   id: string;
-  widgetName: keyof typeof sampleWidgets;
+  widgetName: WidgetName;
 }[] = [
   { id: uuid(), widgetName: "Timer" },
   {

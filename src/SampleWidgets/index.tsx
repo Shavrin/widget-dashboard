@@ -11,7 +11,7 @@ export const Timer = () => {
   return (
     <div
       data-testid="timer widget"
-      className="text-5xl font-futura text-white font-bold h-full flex justify-center items-center"
+      className="text-5xl font-lato text-white font-bold h-full flex justify-center items-center"
     >
       {time}
     </div>
@@ -22,7 +22,7 @@ export const DateWidget = () => {
   return (
     <div
       data-testid="date widget"
-      className="text-3xl font-futura text-white font-bold h-full flex justify-center items-center"
+      className="text-3xl font-lato text-white font-bold h-full flex justify-center items-center"
     >
       {new Date().toDateString()}
     </div>
@@ -48,14 +48,14 @@ export const RandomPokemon = () => {
       });
   }, []);
 
-  return (
+  return imgSource ? (
     <img
       data-testid="pokemon widget"
       src={imgSource}
       alt="random pokemon"
       className="object-contain w-full h-full"
     />
-  );
+  ) : null;
 };
 
 export const RandomImage = () => {

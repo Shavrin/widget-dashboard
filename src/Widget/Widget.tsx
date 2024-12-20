@@ -6,9 +6,11 @@ import { Button } from "../Button";
 import { EllipsisVertical } from "../Icons.tsx";
 import * as sampleWidgets from "../SampleWidgets";
 
+export type WidgetName = keyof typeof sampleWidgets;
+
 export type WidgetType = {
   id: string;
-  widgetName: keyof typeof sampleWidgets;
+  widgetName: WidgetName;
 };
 
 export type WidgetProps = WidgetType & {
@@ -39,7 +41,7 @@ export const Widget = memo(({ widgetName, id, edit, remove }: WidgetProps) => {
         <Menu
           anchor="bottom"
           trigger={
-            <Button type={Button.TYPES.PILL} ariaLabel="options">
+            <Button type={Button.TYPES.PILL} aria-label="options">
               <EllipsisVertical />
             </Button>
           }

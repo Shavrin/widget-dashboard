@@ -3,8 +3,9 @@ import { v4 as uuid } from "uuid";
 import { Dialog } from "../Dialog/Dialog.tsx";
 import { type WidgetType } from "../Widget/Widget.ts";
 import { Button } from "../Button";
-import { Field, Label, Select } from "@headlessui/react";
 import * as sampleWidgets from "../SampleWidgets";
+import { type WidgetName } from "../Widget/Widget.tsx";
+import { Select } from "../Select/Select.tsx";
 
 export type WidgetModalProps = {
   onConfirm: (props: WidgetType) => void;
@@ -40,22 +41,17 @@ export const WidgetModal = ({
           {widget ? "Edit widget" : "Create a widget"}
         </Dialog.Title>
 
-        <Field>
-          <Label className="text-white">Choose widget type: </Label>
+        <Dialog.Body>
           <Select
+            label="Choose widget type: "
             value={widgetName}
-            onChange={(event) =>
-              setWidgetName(event.target.value as keyof typeof sampleWidgets)
-            }
-            className="rounded w-full p-1 bg-stone-300 text-stone-900"
-          >
-            {Object.keys(sampleWidgets).map((key) => (
-              <option key={key} value={key}>
-                {key}
-              </option>
-            ))}
-          </Select>
-        </Field>
+            onChange={(value) => setWidgetName(value as WidgetName)}
+            options={Object.keys(sampleWidgets).map((key) => ({
+              value: key,
+              label: key,
+            }))}
+          />
+        </Dialog.Body>
 
         <Dialog.Footer>
           <Button type={Button.TYPES.SECONDARY} onClick={onClose}>

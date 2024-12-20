@@ -27,7 +27,7 @@ export function CommandCenter({
     <div className="fixed bottom-2 left-4 flex gap-2">
       <Menu
         trigger={
-          <Button type={Button.TYPES.PILL} ariaLabel="dashboard options">
+          <Button type={Button.TYPES.PILL} aria-label="dashboard options">
             <EllipsisVertical />
           </Button>
         }

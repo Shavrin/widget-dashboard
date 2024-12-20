@@ -3,7 +3,7 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     fontFamily: {
-      futura: ["Futura", "sans-serif"],
+      lato: ["Lato", "Futura", "sans-serif"],
     },
     extend: {},
   },

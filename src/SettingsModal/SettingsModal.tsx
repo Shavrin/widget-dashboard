@@ -2,7 +2,7 @@ import { SubmitHandler, useController, useForm } from "react-hook-form";
 import { Button } from "../Button";
 import { Settings, StickTo, useSettings } from "../hooks/useSettings.ts";
 import { Dialog } from "../Dialog/Dialog.tsx";
-import { Field, Label, Select } from "@headlessui/react";
+import { Select } from "../Select/Select.tsx";
 
 export type SettingsModalProps = {
   open: boolean;
@@ -27,20 +27,15 @@ export function SettingsModal({ open, onClose }: SettingsModalProps) {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <Dialog.Body>
-          <Field>
-            <Label className="text-white">Stick widgets to: </Label>
-            <Select
-              value={field.value}
-              onChange={field.onChange}
-              className="rounded w-full p-1 bg-stone-300 text-stone-900"
-            >
-              {Object.keys(StickTo).map((key) => (
-                <option key={key} value={key}>
-                  {key}
-                </option>
-              ))}
-            </Select>
-          </Field>
+          <Select
+            label="Stick widgets to: "
+            value={field.value}
+            onChange={field.onChange}
+            options={Object.keys(StickTo).map((key) => ({
+              value: key,
+              label: key,
+            }))}
+          />
         </Dialog.Body>
 
         <Dialog.Footer>
