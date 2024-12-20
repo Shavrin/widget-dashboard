@@ -8,7 +8,9 @@ A simple browser extension that allows to create widgets on home page.
 
 
 
-https://github.com/user-attachments/assets/41a7434c-e5da-4fde-94b3-8a12b3ff3cbf
+
+https://github.com/user-attachments/assets/0c516d1e-d2aa-41c4-a670-ca716dd58764
+
 
 
 
